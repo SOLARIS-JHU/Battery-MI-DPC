@@ -16,8 +16,6 @@
 
 Companion research notebook for the paper published in [*IEEE Transactions on Smart Grid*](https://ieeexplore.ieee.org/document/11707737/), Early Access, 2026.
 
-The [project website](https://solaris-jhu.github.io/Battery-MI-DPC/) presents the method, paper figures, results, and citation. Its source lives in [`website/`](website/), following the organization of [TQPNet](https://github.com/SOLARIS-JHU/TQPNet). See the [website README](website/README.md) for local preview and maintenance, and the [source map](website/research/source-map.md) for scientific provenance and paper/code differences.
-
 ---
 
 ## The Battery Dispatch Problem
