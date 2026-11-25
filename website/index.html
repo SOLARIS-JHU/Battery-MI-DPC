@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Battery-MI-DPC | End-to-End Battery Dispatch with Exact Rainflow Degradation</title>
+  <meta name="description" content="Self-supervised battery dispatch with mixed-integer differentiable predictive control, exact rainflow cost evaluation, hybrid gradients, and an optional feasibility projection.">
+  <link rel="canonical" href="https://solaris-jhu.github.io/Battery-MI-DPC/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Battery-MI-DPC · Degradation-aware battery dispatch">
+  <meta property="og:description" content="Learn charge, discharge, and idle schedules with exact rainflow cost evaluation and a hybrid training gradient.">
+  <meta property="og:url" content="https://solaris-jhu.github.io/Battery-MI-DPC/">
+  <meta property="og:image" content="https://solaris-jhu.github.io/Battery-MI-DPC/static/og.png">
+  <meta property="og:image:alt" content="Battery-MI-DPC: mixed-integer battery dispatch with exact rainflow degradation">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Battery-MI-DPC">
+  <meta name="twitter:description" content="End-to-end battery dispatch with exact rainflow degradation.">
+  <meta name="twitter:image" content="https://solaris-jhu.github.io/Battery-MI-DPC/static/og.png">
+  <meta name="citation_title" content="End-to-End Battery Dispatch with Exact Rainflow Degradation via Mixed-Integer Differentiable Predictive Control">
+  <meta name="citation_author" content="Ravajiri, Eshagh Safarzadeh">
+  <meta name="citation_author" content="Drgona, Jan">
+  <meta name="citation_author" content="Mehrtash, Mahdi">
+  <meta name="citation_author" content="Hobbs, Benjamin F.">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_journal_title" content="IEEE Transactions on Smart Grid">
+  <meta name="citation_doi" content="10.1109/TSG.2026.3737375">
+  <meta name="citation_arxiv_id" content="2609.12968">
+  <meta name="citation_abstract_html_url" content="https://ieeexplore.ieee.org/document/11707737">
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2609.12968v1">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"End-to-End Battery Dispatch with Exact Rainflow Degradation via Mixed-Integer Differentiable Predictive Control","author":[{"@type":"Person","name":"Eshagh Safarzadeh Ravajiri","affiliation":{"@type":"Organization","name":"Johns Hopkins University"}},{"@type":"Person","name":"Ján Drgoňa","affiliation":{"@type":"Organization","name":"Johns Hopkins University"}},{"@type":"Person","name":"Mahdi Mehrtash","affiliation":{"@type":"Organization","name":"University of Nevada, Reno"}},{"@type":"Person","name":"Benjamin F. Hobbs","affiliation":{"@type":"Organization","name":"Johns Hopkins University"}}],"isPartOf":{"@type":"Periodical","name":"IEEE Transactions on Smart Grid"},"datePublished":"2026","identifier":"10.1109/TSG.2026.3737375","sameAs":["https://doi.org/10.1109/TSG.2026.3737375","https://arxiv.org/abs/2609.12968"],"url":"https://solaris-jhu.github.io/Battery-MI-DPC/","image":"https://solaris-jhu.github.io/Battery-MI-DPC/static/og.png","codeRepository":"https://github.com/SOLARIS-JHU/Battery-MI-DPC"}</script>
+  <link rel="icon" type="image/png" href="static/logos/solaris.png">
+  <link rel="stylesheet" href="static/fonts/fonts.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="static/vendor/katex/katex.min.css">
+  <script defer src="static/vendor/katex/katex.min.js"></script>
+  <script defer src="static/vendor/katex/auto-render.min.js"></script>
+  <script defer src="main.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="site-nav wrap" aria-label="Project navigation">
+  <a class="brand" href="https://solaris-jhu.github.io/solaris-website/">SOLARIS LAB</a>
+  <div class="nav-links"><a href="#problem">Problem</a><a href="#method">Method</a><a href="#results">Results</a><a href="#resources">Resources</a></div>
+</nav>
+<main id="main">
+  <section class="hero" aria-labelledby="paper-title">
+    <div class="wrap">
+      <header class="hero-head">
+        <p class="eyebrow"><span class="pill">IEEE Transactions on Smart Grid</span> Early Access · 2026</p>
+        <h1 id="paper-title">End-to-End Battery Dispatch with Exact Rainflow Degradation via Mixed-Integer Differentiable Predictive Control</h1>
+        <p class="authors">
+          <span><a href="https://ai2ai.engineering.jhu.edu/2026-2027-amazon-doctoral-fellows/">Eshagh Safarzadeh Ravajiri</a><sup>1</sup></span>
+          <span>Ján Drgoňa<sup>2</sup></span>
+          <span><a href="https://www.unr.edu/ebme/people/mahdi-mehrtash">Mahdi Mehrtash</a><sup>3</sup></span>
+          <span><a href="https://engineering.jhu.edu/faculty/benjamin-hobbs/">Benjamin F. Hobbs</a><sup>1</sup></span>
+        </p>
+        <p class="affiliations"><sup>1</sup> Environmental Health and Engineering, Johns Hopkins University<br><sup>2</sup> Civil and Systems Engineering, Johns Hopkins University<br><sup>3</sup> Electrical and Biomedical Engineering, University of Nevada, Reno</p>
+        <div class="buttons" aria-label="Paper resources">
+          <a class="btn btn-primary" href="https://ieeexplore.ieee.org/document/11707737">IEEE Paper</a>
+          <a class="btn" href="https://arxiv.org/abs/2609.12968">arXiv</a>
+          <a class="btn" href="https://github.com/SOLARIS-JHU/Battery-MI-DPC">Code</a>
+          <a class="btn" href="https://colab.research.google.com/github/SOLARIS-JHU/Battery-MI-DPC/blob/main/Battery-MI-DPC.ipynb">Open in Colab</a>
+          <a class="btn" href="#citation">BibTeX</a>
+        </div>
+      </header>
+      <p class="summary"><strong>Learn to schedule a battery while accounting for the cost of its cycles.</strong> A neural policy selects operating modes and power levels from demand, solar, and price forecasts. Training evaluates rainflow degradation directly and combines sparse cycle-extrema gradients with a dense proxy signal.</p>
+      <div class="logos" aria-label="Participating institutions and laboratory">
+        <a href="https://engineering.jhu.edu/" aria-label="Johns Hopkins Whiting School of Engineering"><img src="static/logos/jhu-whiting.svg" width="240" height="64" alt="Johns Hopkins Whiting School of Engineering"></a>
+        <a href="https://www.unr.edu/" aria-label="University of Nevada, Reno"><img src="static/logos/nevada.svg" width="481" height="190" alt="University of Nevada, Reno"></a>
+        <a href="https://solaris-jhu.github.io/solaris-website/" aria-label="SOLARIS Lab"><img class="lab-logo" src="static/logos/solaris.png" width="240" height="199" alt="SOLARIS Lab"></a>
+      </div>
+      <figure class="graphical-abstract">
+        <object id="abstract-animation" data="static/figures/graphical-abstract-animated.svg" type="image/svg+xml" aria-label="Animated graphical abstract: forecasts enter a mode and power policy; battery dynamics produce an energy trajectory; rainflow pairs cycles; extrema and proxy gradients return to training.">
+          <img src="static/figures/graphical-abstract.svg" width="760" height="392" alt="Battery policy, SOC dynamics, rainflow cycle pairing, and hybrid gradient feedback.">
+        </object>
+        <div class="abstract-controls"><button class="btn" id="toggle-animation" type="button" disabled>Pause animation</button><button class="btn" id="restart-animation" type="button" disabled>Restart</button><a href="static/figures/graphical-abstract-animated.svg">View full size</a></div>
+        <figcaption>Forecasts flow through the policy to a state-of-charge trajectory. Moving markers follow that illustrative trajectory; cycle highlights appear as rainflow pairs its extrema. The two gradient paths return the degradation signal to policy training.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="problem" aria-labelledby="problem-title">
+    <div class="wrap">
+      <h2 id="problem-title">The dispatch problem</h2>
+      <div class="two-col">
+        <div class="prose">
+          <p>Buying electricity at lower prices and discharging at higher prices can reduce a household’s energy bill. But cycling also wears the battery. Two schedules with similar energy throughput can incur different degradation because cycle depth matters.</p>
+          <p>Rainflow counting identifies full and half cycles in an irregular state-of-charge (SOC) trajectory. Its discrete cycle-pairing operations complicate gradient-based learning. Mixed-integer differentiable predictive control (MI-DPC) keeps that forward cost calculation while supplying a custom backward signal.</p>
+          <p class="small">The study considers independent, grid-connected residential batteries with rooftop solar: a 24-hour schedule at 15-minute resolution, or 96 dispatch intervals. SOC is expressed as stored energy in kWh.</p>
+        </div>
+        <div class="equation-card">
+          <h3>Energy cost + cycle degradation</h3>
+          <div class="math">$$\min_{\mathbf{x}}\;\sum_t\left(p_t^{\mathrm{import}}\pi_t^{\mathrm{buy}}-p_t^{\mathrm{export}}\pi_t^{\mathrm{sell}}\right)\Delta t+C_{\mathrm{cyc}}$$</div>
+          <div class="math">$$C_{\mathrm{cyc}}=\frac{R}{\eta_{\mathrm{dis}}}\sum_i n_i\Phi(\delta_i),\qquad\Phi(\delta)=a\delta^b$$</div>
+          <p class="small">Cycle depths \(\delta_i\) and counts \(n_i\) come from rainflow; \(R\) is replacement cost and \(\eta_{\mathrm{dis}}\) is discharge efficiency. The paper uses a Li-NMC stress law. Charge/discharge limits, mode exclusivity, battery dynamics, grid balance, SOC bounds, and a terminal SOC target define the scheduling problem.</p>
+        </div>
+      </div>
+      <p class="source">Formulation: paper Sections II-A–B, Equations (1)–(4). The forward implementation’s half-cycle convention is described in Section III-C7.</p>
+    </div>
+  </section>
+
+  <section class="alt" id="method" aria-labelledby="method-title">
+    <div class="wrap">
+      <h2 id="method-title">From forecasts to a trainable dispatch policy</h2>
+      <p class="prose">The graphical abstract follows the computational path below. Offline training uses the scheduling objective itself, without requiring optimal dispatch labels. At deployment, the trained network predicts a schedule and an optional quadratic-program (QP) filter adjusts its continuous powers.</p>
+      <ol class="method-steps">
+        <li><h3>Encode the forecasts</h3><p>Normalize solar generation, demand, purchase price, and the buy–sell price spread. A shared multilayer encoder feeds separate mode and power heads over the full horizon.</p></li>
+        <li><h3>Select modes and bound power</h3><p>A straight-through Gumbel–Softmax estimator supplies one-hot charge, discharge, or idle decisions during training. Sigmoid power outputs are scaled by the power limit and gated by the chosen mode. Inference uses discrete mode selection.</p></li>
+        <li><h3>Unroll the physical calculation</h3><p>Compute SOC from the battery dynamics and derive import/export from net grid power. Evaluate energy cost and rainflow cycle cost on the resulting trajectory. Dynamics and power balance are explicit computations.</p></li>
+        <li><h3>Backpropagate and update</h3><p>Combine gradients at identified cycle extrema with a proxy gradient based on adjacent SOC changes. Backpropagate through the dynamics and policy, together with SOC-bound and terminal penalties. Repeat over training batches.</p></li>
+      </ol>
+      <div class="two-col">
+        <div class="equation-card">
+          <h3>The hybrid backward signal</h3>
+          <div class="math">$$\widetilde{\nabla}_{\mathrm{SOC}}=\lambda\nabla_{\mathrm{exact}}+(1-\lambda)\nabla_{\mathrm{proxy}}$$</div>
+          <p class="small">The sparse term differentiates the cost associated with identified cycle extrema; the proxy distributes a signal across incremental SOC changes. The paper uses \(\lambda=0.5\). The mixture is a training estimator, not the exact derivative of the entire rainflow mapping.</p>
+        </div>
+        <div class="equation-card">
+          <h3>The self-supervised loss</h3>
+          <div class="math">$$\mathcal L=\mathcal L_{\mathrm{econ}}+w_{\mathrm{deg}}(e)\mathcal L_{\mathrm{cyc}}+\lambda_{\mathrm{SOC}}\mathcal L_{\mathrm{SOC}}+\lambda_{\mathrm{term}}\mathcal L_{\mathrm{term}}$$</div>
+          <p class="small">A curriculum decreases the degradation weight while the categorical temperature is annealed. SOC-bound and terminal penalties guide learning; they do not by themselves guarantee feasibility for every forecast.</p>
+        </div>
+      </div>
+      <p class="source">Algorithm 1 and Sections III-C–F; hybrid gradient Equation (25), loss Equation (19). The tilde marks the hybrid estimator here; the paper writes it as a backward derivative.</p>
+      <figure class="figure figure-gradient">
+        <a href="static/figures/hybrid-gradient.svg"><img src="static/figures/hybrid-gradient.svg" loading="lazy" alt="Paper Figure 2: SOC signal, sparse extrema gradient, dense proxy gradient, their hybrid, and rainflow-cost optimization." width="456" height="667"></a>
+        <figcaption>Figure 2 from the paper illustrates the sparse, proxy, and hybrid signals and their behavior in a trajectory-optimization example. It explains the training mechanism; fleet dispatch results are reported separately below.</figcaption>
+      </figure>
+      <h3 class="subsection">A projection at inference</h3>
+      <p class="prose">The paper’s filter minimizes the squared change to predicted charge and discharge powers. It keeps the selected modes fixed and imposes linear battery dynamics, power limits, the initial SOC, and SOC bounds. If the initial SOC lies within its bounds, zero power is feasible; the stated QP then has a unique solution.</p>
+      <p class="prose">This result applies to the constraints in the projection formulation. Its Equations (30)–(31) do not include the original scheduling problem’s terminal equality. The released notebook also uses a different projection implementation; see the resource notes below.</p>
+    </div>
+  </section>
+
+  <section id="results" aria-labelledby="results-title">
+    <div class="wrap">
+      <h2 id="results-title">Results across residential battery profiles</h2>
+      <p class="prose">The paper evaluates simulated dispatch using metered rooftop-solar and demand profiles from 10 residential batteries over 365 days, spanning SDG&amp;E, Xcel Energy, and APS tariffs. The main reference is a piecewise-linear (PWL) degradation mixed-integer linear program solved with Gurobi; its schedules are evaluated using rainflow cost.</p>
+      <div class="facts">
+        <div class="card"><div class="fact-value">+3.33%</div><p><strong>Total-cost gap versus PWL</strong>Fleet-wide training, with projection, over 3,650 battery-days.</p></div>
+        <div class="card"><div class="fact-value">62.0 s</div><p><strong>Total inference time</strong>Versus 35,011 s for PWL; the paper reports a 564× speedup.</p></div>
+        <div class="card"><div class="fact-value">3,650 / 3,650</div><p><strong>Days reported feasible</strong>Observed for the fleet-trained policy, with or without projection.</p></div>
+      </div>
+      <p class="small">Table III. Fleet-wide training uses all 3,650 scenarios and reports performance on that fleet; this is not an established held-out fleet test. The PWL reference is a benchmark, so these are performance gaps, not certified gaps to the global optimum.</p>
+      <h3 class="subsection">What broader training changes</h3>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Fleet performance comparison, horizontally scrollable">
+        <table>
+          <caption>Annual fleet totals — Table III, 3,650 battery-days</caption>
+          <thead><tr><th scope="col">Method / training</th><th scope="col">Total cost ($)</th><th scope="col">Gap vs. PWL</th><th scope="col">Feasible days</th><th scope="col">Time (s)</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">PWL / Gurobi</th><td>16,000</td><td>0.00%</td><td>3,650</td><td>35,011</td></tr>
+            <tr><th scope="row">Single battery, no projection</th><td>17,810</td><td>+11.31%</td><td>3,193</td><td>52.7</td></tr>
+            <tr><th scope="row">Single battery + projection</th><td>17,804</td><td>+11.27%</td><td>3,650</td><td>485</td></tr>
+            <tr><th scope="row">Fleet-wide, no projection</th><td>16,533</td><td>+3.33%</td><td>3,650</td><td>21.9</td></tr>
+            <tr class="highlight"><th scope="row">Fleet-wide + projection</th><td>16,533</td><td>+3.33%</td><td>3,650</td><td>62.0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="prose">A policy trained on one SDG&amp;E customer incurs a larger gap when evaluated across the full fleet. Exposing training to the broader set of profiles lowers the reported gap. Projection repairs the reported SOC violations from the single-customer policy while making only small changes to its total cost.</p>
+      <dl class="settings">
+        <div><dt>Battery and horizon</dt><dd>10 kWh; 4.8 kW power limit; 92% efficiency; SOC bounds 10–90%; 96 intervals per day.</dd></div>
+        <div><dt>Timing conditions</dt><dd>Intel Core Ultra 7 155H CPU, 16 GB RAM; batch size 1; Gurobi 13.0 on the same machine. Fleet times sum the per-instance solves.</dd></div>
+        <div><dt>Offline training</dt><dd>Approximately 8.5 hours on one NVIDIA Tesla T4 GPU (16 GB), separate from inference timing.</dd></div>
+        <div><dt>Statistical scope</dt><dd>Reported aggregate costs and timings for this dataset. The tables do not provide confidence intervals or repeated-run uncertainty.</dd></div>
+      </dl>
+      <figure class="figure figure-wide">
+        <a href="static/figures/feasibility-projection.svg"><img src="static/figures/feasibility-projection.svg" loading="lazy" alt="Paper Figure 4: a summer-day SOC trajectory before and after projection, distribution of violations, and temporal pattern of violations." width="497" height="280"></a>
+        <figcaption>Figure 4: projection behavior for the single-battery-trained policy evaluated across the fleet. Table III reports 3,193 feasible days before projection and 3,650 afterward. Original axes and legends are retained.</figcaption>
+      </figure>
+      <h3 class="subsection">Why the rainflow training objective matters</h3>
+      <p class="prose">On 10 held-out synthetic test days, changing the training objective while retaining the MI-DPC architecture changes the cost–wear trade-off. The exact-rainflow-trained policy has a smaller reported gap than its PWL-trained counterpart. The comparison below keeps projection enabled for both.</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Synthetic comparison, horizontally scrollable">
+        <table>
+          <caption>Selected rows from Table I — 10 synthetic test days</caption>
+          <thead><tr><th scope="col">Method</th><th scope="col">Energy cost ($)</th><th scope="col">Degradation ($)</th><th scope="col">Gap vs. PWL</th><th scope="col">Time / day (s)</th><th scope="col">Feasible</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">PWL / Gurobi</th><td>28.55</td><td>0.58</td><td>0.00%</td><td>9.42</td><td>10/10</td></tr>
+            <tr><th scope="row">MI-DPC-PWL + projection</th><td>31.35</td><td>0.15</td><td>+8.14%</td><td>0.019</td><td>10/10</td></tr>
+            <tr class="highlight"><th scope="row">MI-DPC + projection</th><td>29.01</td><td>0.62</td><td>+1.74%</td><td>0.041</td><td>10/10</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small">Costs and per-instance timings as reported in Table I; same CPU and batch-size-1 setup as above. Table I also includes throughput, differential evolution, and reinforcement-learning baselines. Rounded source values are retained without recomputing the reported gaps.</p>
+      <figure class="figure figure-sensitivity">
+        <a href="static/figures/lambda-sensitivity.svg"><img src="static/figures/lambda-sensitivity.svg" loading="lazy" alt="Paper Figure 3: rainflow-cost convergence and final cost versus the hybrid mixing weight lambda over 50 trajectories." width="247" height="336"></a>
+        <figcaption>Figure 3: mixing-weight sensitivity over 50 trajectories. Interior values perform similarly in this study, motivating the default \(\lambda=0.5\); the paper does not establish a universally optimal mixing weight.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="alt" id="scope" aria-labelledby="scope-title">
+    <div class="wrap">
+      <h2 id="scope-title">Scope and interpretation</h2>
+      <ul class="scope-list">
+        <li><strong>Model-based dispatch on real traces.</strong> These results use measured customer profiles in scheduling experiments. They do not establish a physical closed-loop battery deployment.</li>
+        <li><strong>Exact forward cost, approximate training signal.</strong> “Exact rainflow” identifies the cycle-counting objective. The hybrid backward estimator and learned policy do not imply globally optimal dispatch.</li>
+        <li><strong>Feasibility has a defined scope.</strong> Architectural constraints, soft training penalties, and the projection QP play different roles. The QP result applies to its stated constraints and initial-SOC assumption; it does not establish the original terminal equality.</li>
+        <li><strong>Distribution and chemistry matter.</strong> The reported fleet results use common battery specifications and a Li-NMC cycle-stress law. New customer profiles or chemistries require separate assessment. Calendar aging and electrochemical aging dynamics are outside this model.</li>
+        <li><strong>Day-ahead scheduling.</strong> Receding-horizon re-optimization and online adaptation are future directions in the paper. Independent per-battery schedules do not enforce coupled network constraints.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="resources" aria-labelledby="resources-title">
+    <div class="wrap">
+      <h2 id="resources-title">Resources and citation</h2>
+      <p class="prose">Explore the released Jupyter notebook, train on its synthetic profiles, or examine its comparison and projection routines. The repository README explains the dependencies and the additional checkpoint required by the fleet-evaluation cells.</p>
+      <div class="resource-links"><a href="https://github.com/SOLARIS-JHU/Battery-MI-DPC">Source code &amp; README</a><a href="https://colab.research.google.com/github/SOLARIS-JHU/Battery-MI-DPC/blob/main/Battery-MI-DPC.ipynb">Google Colab notebook</a><a href="https://arxiv.org/html/2609.12968v1">Read the arXiv manuscript</a><a href="citation.bib" download>Download BibTeX</a></div>
+      <details>
+        <summary>Paper version and reproducibility notes</summary>
+        <p>The publication record is <em>IEEE Transactions on Smart Grid</em>, Early Access, 2026, DOI <a href="https://doi.org/10.1109/TSG.2026.3737375">10.1109/TSG.2026.3737375</a>. The scientific descriptions, equations, figures, and results on this page follow <a href="https://arxiv.org/abs/2609.12968v1">arXiv:2609.12968v1</a>. The IEEE full text was inaccessible during preparation, so differences from the version of record could not be checked.</p>
+        <p>The released notebook is an implementation resource, not a complete reproduction of every paper experiment. The fleet checkpoint <code>model_15min_div_16.pt</code> and the customer dataset are not included. Its rainflow scaling, projection constraints, and example timing protocol differ from the manuscript. The website reports the manuscript’s results; it does not present a rerun of the notebook.</p>
+      </details>
+      <h3 class="subsection" id="citation">BibTeX</h3>
+      <div class="bibtex-box">
+        <div class="bibtex-toolbar"><span>IEEE Transactions on Smart Grid · Early Access</span><button class="btn" id="copy-bibtex" type="button">Copy BibTeX</button></div>
+        <pre><code id="bibtex">@article{ravajiri2026battery,
+  author = {Ravajiri, Eshagh Safarzadeh and Drgona, Jan
+            and Mehrtash, Mahdi and Hobbs, Benjamin F.},
+  title = {End-to-End Battery Dispatch with Exact Rainflow
+           Degradation via Mixed-Integer Differentiable
+           Predictive Control},
+  journal = {IEEE Transactions on Smart Grid},
+  year = {2026},
+  note = {Early Access},
+  doi = {10.1109/TSG.2026.3737375},
+  url = {https://ieeexplore.ieee.org/document/11707737/}
+}</code></pre>
+        <p id="copy-status" class="small" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="wrap">
+    <p><a href="https://solaris-jhu.github.io/solaris-website/">SOLARIS Lab</a> · Johns Hopkins University</p>
+    <p>Website adapted from <a href="https://solaris-jhu.github.io/TQPNet/">TQPNet</a>. <a href="NOTICE">Attribution</a> · <a href="https://github.com/SOLARIS-JHU/Battery-MI-DPC/tree/main/website">Website source</a></p>
+    <p class="funding">The paper acknowledges Arizona Public Service and sonnen, Inc. for data and collaboration, and support from DOE BENEFIT (DE-EE0010902) and the DOE Office of Science, ASCR SciDAC Institute LEADS.</p>
+  </div>
+</footer>
+</body>
+</html>

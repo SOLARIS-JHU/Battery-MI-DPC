@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://solaris-jhu.github.io/Battery-MI-DPC/sitemap.xml

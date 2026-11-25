@@ -1,6 +1,7 @@
 <h1 align="center">Battery-MI-DPC</h1>
 
 <p align="center">
+  <a href="https://solaris-jhu.github.io/Battery-MI-DPC/"><img src="https://img.shields.io/badge/Project-Website-002D72.svg" alt="Project website"></a>
   <a href="https://doi.org/10.1109/TSG.2026.3737375"><img src="https://img.shields.io/badge/DOI-10.1109%2FTSG.2026.3737375-00629B.svg?logo=ieee&logoColor=white" alt="IEEE paper DOI"></a>
   <a href="https://arxiv.org/abs/2609.12968"><img src="https://img.shields.io/badge/arXiv-2609.12968-B31B1B.svg?logo=arxiv&logoColor=white" alt="arXiv"></a>
   <a href="https://colab.research.google.com/github/SOLARIS-JHU/Battery-MI-DPC/blob/main/Battery-MI-DPC.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
@@ -14,6 +15,8 @@
 <p align="center">Eshagh Safarzadeh Ravajiri, Jan Drgona, Mahdi Mehrtash, and Benjamin F. Hobbs</p>
 
 Companion research notebook for the paper published in [*IEEE Transactions on Smart Grid*](https://ieeexplore.ieee.org/document/11707737/), Early Access, 2026.
+
+The [project website](https://solaris-jhu.github.io/Battery-MI-DPC/) presents the method, paper figures, results, and citation. Its source lives in [`website/`](website/), following the organization of [TQPNet](https://github.com/SOLARIS-JHU/TQPNet). See the [website README](website/README.md) for local preview and maintenance, and the [source map](website/research/source-map.md) for scientific provenance and paper/code differences.
 
 ---
 

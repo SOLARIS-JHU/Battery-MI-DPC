@@ -1,0 +1,16 @@
+Battery-MI-DPC project website
+
+The website code and visual foundation are adapted from the website in
+SOLARIS-JHU/TQPNet by the TQPNet contributors:
+https://github.com/SOLARIS-JHU/TQPNet/tree/main/website
+
+TQPNet is licensed under the Apache License, Version 2.0; a copy is in
+website/LICENSE. This adaptation changes the content, structure, figures,
+navigation, animation controls, and responsive layouts for Battery-MI-DPC.
+The license applies to the website code only, not to the research notebook
+or other files in the repository.
+
+Paper figures, the SOLARIS graphical abstract, logos, and third-party
+fonts and mathematical rendering assets retain their original rights.
+Institutional logos do not imply endorsement. See research/ASSETS.md,
+research/figure-provenance.md, and the bundled font/KaTeX licenses.
