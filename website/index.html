@@ -127,14 +127,15 @@
         <figcaption>Figure 2 from the paper illustrates the sparse, proxy, and hybrid signals and their behavior in a trajectory-optimization example. It explains the training mechanism; fleet dispatch results are reported separately below.</figcaption>
       </figure>
       <h3 class="subsection">Fast dispatch with a feasibility filter</h3>
-      <p class="prose">An optional feasibility filter adjusts predicted power schedules to respect state-of-charge and power limits while keeping the selected operating modes. The 62-second fleet result below includes this filter.</p>
+      <p class="prose">An optional feasibility filter adjusts predicted power schedules to respect state-of-charge and power limits while keeping the selected operating modes.</p>
     </div>
   </section>
 
   <section id="results" aria-labelledby="results-title">
     <div class="wrap">
       <h2 id="results-title">Results across residential battery profiles</h2>
-      <p class="prose"><strong>3,650 daily battery schedules in 62 seconds—with every evaluated day reported feasible and total cost 3.33% above the optimization benchmark.</strong></p>
+      <p class="prose"><strong>Optimize thousands of battery dispatch days in seconds, with feasible schedules and near-optimal performance.</strong></p>
+      <p class="prose">3,650 daily battery schedules in 62 seconds—with every evaluated day reported feasible and total cost 3.33% above the optimization benchmark.</p>
       <p class="prose">The paper evaluates simulated dispatch using metered rooftop-solar and demand profiles from 10 residential batteries over 365 days, under real-world electricity tariffs. The main reference is a piecewise-linear (PWL) degradation mixed-integer linear program solved with Gurobi; its schedules are evaluated using rainflow cost.</p>
       <div class="facts">
         <div class="card"><div class="fact-value">+3.33%</div><p><strong>Total-cost gap versus PWL</strong>Fleet-wide training, with projection, over 3,650 battery-days.</p></div>
