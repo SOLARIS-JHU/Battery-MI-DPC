@@ -18,7 +18,7 @@ The IEEE full text was inaccessible during preparation, so no equivalence betwee
 
 - Exact paper title and author order: P p. 1 and B. Eshagh Safarzadeh Ravajiri; Ján Drgoňa; Mahdi Mehrtash; Benjamin F. Hobbs. The PDF supports the accented second name; machine-readable publisher metadata also uses Jan Drgona.
 - Superscripts on the website denote departments, not author ordering: Ravajiri/Hobbs 1 = JHU Environmental Health and Engineering; Drgoňa 2 = JHU Civil and Systems Engineering; Mehrtash 3 = University of Nevada, Reno, Electrical and Biomedical Engineering. P p. 1 and B agree.
-- Hero summary: P Sections I and III, pp. 1,3-6. Forecast-driven mode/power policy; exact forward rainflow evaluation under the adopted stress model; sparse/dense hybrid backward signal. It does not claim exact optimal dispatch or a fully exact backward derivative.
+- Hero summary: P Sections I and III, pp. 1,3-6; acceleration supported by the hardware-matched timings in Section IV-B and Table III. Forecast-driven mode/power policy; exact forward rainflow evaluation under the adopted stress model; sparse/dense hybrid backward signal. It does not claim exact optimal dispatch or a fully exact backward derivative.
 - Resource buttons: B for IEEE/DOI; P for arXiv; C for code and the actual `main/Battery-MI-DPC.ipynb` Colab path. No invented dataset/checkpoint/demo links.
 - Organization logos establish affiliation/identity, not scientific evidence. Their origin and presentation are recorded in design-audit.md.
 - Animated abstract: A, supported conceptually by P Algorithm 1 and Sections III-C/E. Moving markers and cycle highlights are illustrative operations, not measured customer traces or benchmark evidence. Two gradient branches represent the backward construction, not two independent physical controllers.
@@ -40,7 +40,7 @@ The IEEE full text was inaccessible during preparation, so no equivalence betwee
 | Hybrid formula / lambda=0.5 | P Eq. (25), p. 6; Section IV-A, p. 8 | Website tilde explicitly identifies an estimator. Lambda is a default supported by sensitivity study, not a proven universal optimum. |
 | Self-supervised loss / curriculum and temperature | P Eq. (19), p. 5; Section III-F, p. 6 | Soft SOC and terminal penalties do not guarantee feasibility. |
 | Original Figure 2 / hybrid gradient caption | P Fig. 2, p. 7; Section III-E2 | A trajectory-optimization explanation; not the fleet benchmark. |
-| Projection description and uniqueness | P Section III-G, Eqs. (30)-(31), Assumption 1/Theorem 1, p. 7 | Fixed modes; stated QP constraints; initial SOC within bounds; no terminal equality or global-dispatch optimality. |
+| Concise inference feasibility filter | P Section III-G, Eqs. (30)-(31), Assumption 1/Theorem 1, p. 7 | Fixed modes; stated QP constraints; initial SOC within bounds; no terminal equality or global-dispatch optimality. |
 | `#results`: real traces and PWL reference | P Section IV-B, pp. 8-9 | Numerical dispatch on measured PV/demand; PWL schedules post-evaluated using rainflow. |
 | Fleet cards and annual fleet comparison | P Table III, p. 11; Sections IV-D/E, pp. 9-11 | 3,650 battery-days, not batteries; totals over a fleet-year; no established held-out fleet split. |
 | Battery and timing conditions | P Section IV-B, pp. 8-9 | Common specs; batch-size-1 CPU inference; same CPU for Gurobi; offline GPU cost separate. |
@@ -49,7 +49,7 @@ The IEEE full text was inaccessible during preparation, so no equivalence betwee
 | Original Figure 3 / 50 trajectories | P Fig. 3 and Section IV-A, p. 8 | Preserve log cost axis, inset and shading; do not invent confidence-level interpretation. |
 | `#scope`: model/traces, gradient and chemistry qualifications | P Sections II-B, III-E/G, IV-B/E, V, pp. 2,6-11 | No physical closed-loop experiment, global optimum, universal gradient/feasibility/chemistry claim. |
 | Day-ahead scope / future receding-horizon operation | P Section II-A p. 2 and Conclusion p. 11 | Receding horizon and online adaptation are future work. Independent battery problems contain no coupled feeder/network constraints; that limitation follows from the formulation. |
-| `#resources`: notebook and reproduction caveats | C, code-audit.md, README | Synthetic notebook available; fleet checkpoint/customer dataset missing; paper/code differences kept explicit. |
+| `#resources`: notebook resources and paper version | C, code-audit.md, README; P/B | Public page links notebook and usage guidance. Detailed implementation/reproduction caveats are retained in the repository audit. Scientific-source and publication-version distinction stays on the page. |
 | Citation | B | Journal, year, DOI, title and authors match metadata; Early Access, no placeholder page range. |
 | Footer funding/data acknowledgment | P Acknowledgments, p. 11 | APS/sonnen, DOE BENEFIT DE-EE0010902, DOE Office of Science ASCR/SciDAC LEADS. |
 
@@ -83,15 +83,23 @@ Use **reported costs** and per-instance timings. Section IV-C explicitly describ
 
 10 batteries x 365 days = 3,650 battery-days; 10 kWh capacity; 4.8 kW; stated efficiency 92%; SOC bounds 10%-90%; 96 daily intervals; Intel Core Ultra 7 155H / 16 GB RAM; batch size 1; Gurobi 13.0; Tesla T4 / 16 GB GPU memory; about 8.5-hour offline training: P Section IV-B, pp. 8-9. The page does not label the 92% as round-trip efficiency. Figure 3's 50 trajectories and lambda=0.5: Section IV-A, p. 8. Tables I-III provide no confidence intervals or repeated-seed/run uncertainty.
 
-## Code and publication caveats retained on the public page
+## Code and publication caveats for maintenance
 
 - The scientific page follows P, not a fresh execution of C. Missing `model_15min_div_16.pt` and real customer traces prevent a complete fleet reproduction from the repository alone.
 - Notebook cells 10/12 omit the paper's half-cycle multiplier and discharge-efficiency cost factor; cell 14 projection omits mode-locking and terminal equality and can return uncorrected outputs after solver failure. The manuscript's theorem must not be transferred to that function.
 - Notebook cell 22 times a multi-sample neural batch and uses different feasibility reporting, while P describes CPU batch-size-1 timing. Notebook saved outputs are not the page's result source.
-- P's own projection omits the original terminal equality; the public method and scope sections explicitly explain this.
+- P's own projection omits the original terminal equality; the public scope section explicitly explains this.
 - Known source inconsistencies not propagated: projected single-battery cost gap is 0.36% rather than abstract's mixed 0.35%; 0.31 kWh is not 2.3% of 10 kWh; 51 ms stated projection time does not explain aggregate timing changes. No new values are synthesized to resolve them.
 - See figure-provenance.md for exact asset identity and rights. Original source SVGs are unchanged, while the abstract is a labeled explanatory animation.
 
 ## Audit outcome and maintenance
 
 No incorrect numerical transcription or substantive algorithm misstatement was found in the first draft. The review requested replacing the unsupported Table I wording “mean costs” with “reported costs.” Recheck this map after changes to public claims, code/checkpoints/data, source version, equations or figures. A successful source audit is separate from browser/deployment validation.
+
+## Accessible wording update
+
+- Hero now reads “Learning to accelerate battery dispatch while accounting for the cost of its cycles.” No new numerical or optimality claim.
+- The projection paragraph is condensed to its practical role: SOC/power limits and preserved operating modes; the 62-second fleet total includes the filter (P Section III-G and Table III). It does not claim a hard real-time deadline or universal feasibility of raw network outputs. Terminal-equality scope remains in the Scope section.
+- The new bold Results lead transcribes Table III: 3,650 daily battery schedules, 62 seconds with projection, 3,650/3,650 reported feasible, and 3.33% total-cost gap relative to PWL. “Optimization benchmark” is defined immediately afterward as PWL degradation MILP solved by Gurobi. It does not claim lossless performance.
+- “Real-world electricity tariffs” summarizes the three utility regions in Section IV-B; “single household” retains the single-customer training setting from IV-D.
+- The specified detailed notebook-reproduction paragraph was removed from the public page at the user's request. The full implementation audit remains in code-audit.md; no research code was modified.

@@ -63,7 +63,7 @@
           <a class="btn" href="#citation">BibTeX</a>
         </div>
       </header>
-      <p class="summary"><strong>Learn to accelerate battery dispatch while accounting for the cost of its cycles.</strong> A neural policy selects operating modes and power levels from demand, solar, and price forecasts. Training evaluates rainflow degradation directly and combines sparse cycle-extrema gradients with a dense proxy signal.</p>
+      <p class="summary"><strong>Learning to accelerate battery dispatch while accounting for the cost of its cycles.</strong> A neural policy selects operating modes and power levels from demand, solar, and price forecasts. Training evaluates rainflow degradation directly and combines sparse cycle-extrema gradients with a dense proxy signal.</p>
       <div class="logos" aria-label="Participating institutions and laboratory">
         <a href="https://engineering.jhu.edu/" aria-label="Johns Hopkins Whiting School of Engineering"><img src="static/logos/jhu-whiting.svg" width="240" height="64" alt="Johns Hopkins Whiting School of Engineering"></a>
         <a href="https://www.unr.edu/" aria-label="University of Nevada, Reno"><img src="static/logos/nevada.svg" width="481" height="190" alt="University of Nevada, Reno"></a>
@@ -126,16 +126,16 @@
         <a href="static/figures/hybrid-gradient.svg"><img src="static/figures/hybrid-gradient.svg" loading="lazy" alt="Paper Figure 2: SOC signal, sparse extrema gradient, dense proxy gradient, their hybrid, and rainflow-cost optimization." width="456" height="667"></a>
         <figcaption>Figure 2 from the paper illustrates the sparse, proxy, and hybrid signals and their behavior in a trajectory-optimization example. It explains the training mechanism; fleet dispatch results are reported separately below.</figcaption>
       </figure>
-      <h3 class="subsection">A projection at inference</h3>
-      <p class="prose">The paper’s filter minimizes the squared change to predicted charge and discharge powers. It keeps the selected modes fixed and imposes linear battery dynamics, power limits, the initial SOC, and SOC bounds. If the initial SOC lies within its bounds, zero power is feasible; the stated QP then has a unique solution.</p>
-      <p class="prose">This result applies to the constraints in the projection formulation. Its Equations (30)–(31) do not include the original scheduling problem’s terminal equality. The released notebook also uses a different projection implementation; see the resource notes below.</p>
+      <h3 class="subsection">Fast dispatch with a feasibility filter</h3>
+      <p class="prose">An optional feasibility filter adjusts predicted power schedules to respect state-of-charge and power limits while keeping the selected operating modes. The 62-second fleet result below includes this filter.</p>
     </div>
   </section>
 
   <section id="results" aria-labelledby="results-title">
     <div class="wrap">
       <h2 id="results-title">Results across residential battery profiles</h2>
-      <p class="prose">The paper evaluates simulated dispatch using metered rooftop-solar and demand profiles from 10 residential batteries over 365 days, spanning SDG&amp;E, Xcel Energy, and APS tariffs. The main reference is a piecewise-linear (PWL) degradation mixed-integer linear program solved with Gurobi; its schedules are evaluated using rainflow cost.</p>
+      <p class="prose"><strong>3,650 daily battery schedules in 62 seconds—with every evaluated day reported feasible and total cost 3.33% above the optimization benchmark.</strong></p>
+      <p class="prose">The paper evaluates simulated dispatch using metered rooftop-solar and demand profiles from 10 residential batteries over 365 days, under real-world electricity tariffs. The main reference is a piecewise-linear (PWL) degradation mixed-integer linear program solved with Gurobi; its schedules are evaluated using rainflow cost.</p>
       <div class="facts">
         <div class="card"><div class="fact-value">+3.33%</div><p><strong>Total-cost gap versus PWL</strong>Fleet-wide training, with projection, over 3,650 battery-days.</p></div>
         <div class="card"><div class="fact-value">62.0 s</div><p><strong>Total inference time</strong>Versus 35,011 s for PWL; the paper reports a 564× speedup.</p></div>
@@ -156,7 +156,7 @@
           </tbody>
         </table>
       </div>
-      <p class="prose">A policy trained on one SDG&amp;E customer incurs a larger gap when evaluated across the full fleet. Exposing training to the broader set of profiles lowers the reported gap. Projection repairs the reported SOC violations from the single-customer policy while making only small changes to its total cost.</p>
+      <p class="prose">A policy trained on a single household incurs a larger gap when evaluated across the full fleet. Exposing training to the broader set of profiles lowers the reported gap. Projection repairs the reported SOC violations from the single-customer policy while making only small changes to its total cost.</p>
       <dl class="settings">
         <div><dt>Battery and horizon</dt><dd>10 kWh; 4.8 kW power limit; 92% efficiency; SOC bounds 10–90%; 96 intervals per day.</dd></div>
         <div><dt>Timing conditions</dt><dd>Intel Core Ultra 7 155H CPU, 16 GB RAM; batch size 1; Gurobi 13.0 on the same machine. Fleet times sum the per-instance solves.</dd></div>
@@ -207,9 +207,8 @@
       <p class="prose">Explore the released Jupyter notebook, train on its synthetic profiles, or examine its comparison and projection routines. The repository README explains the dependencies and the additional checkpoint required by the fleet-evaluation cells.</p>
       <div class="resource-links"><a href="https://github.com/SOLARIS-JHU/Battery-MI-DPC">Source code &amp; README</a><a href="https://colab.research.google.com/github/SOLARIS-JHU/Battery-MI-DPC/blob/main/Battery-MI-DPC.ipynb">Google Colab notebook</a><a href="https://arxiv.org/html/2609.12968v1">Read the arXiv manuscript</a><a href="citation.bib" download>Download BibTeX</a></div>
       <details>
-        <summary>Paper version and reproducibility notes</summary>
+        <summary>Paper version</summary>
         <p>The publication record is <em>IEEE Transactions on Smart Grid</em>, Early Access, 2026, DOI <a href="https://doi.org/10.1109/TSG.2026.3737375">10.1109/TSG.2026.3737375</a>. The scientific descriptions, equations, figures, and results on this page follow <a href="https://arxiv.org/abs/2609.12968v1">arXiv:2609.12968v1</a>. The IEEE full text was inaccessible during preparation, so differences from the version of record could not be checked.</p>
-        <p>The released notebook is an implementation resource, not a complete reproduction of every paper experiment. The fleet checkpoint <code>model_15min_div_16.pt</code> and the customer dataset are not included. Its rainflow scaling, projection constraints, and example timing protocol differ from the manuscript. The website reports the manuscript’s results; it does not present a rerun of the notebook.</p>
       </details>
       <h3 class="subsection" id="citation">BibTeX</h3>
       <div class="bibtex-box">
