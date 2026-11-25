@@ -1,16 +1,35 @@
-# Battery MI-DPC
+<h1 align="center">Battery-MI-DPC</h1>
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/SOLARIS-JHU/Battery-MI-DPC/blob/main/Battery-MI-DPC.ipynb)
+<p align="center">
+  <a href="https://doi.org/10.1109/TSG.2026.3737375"><img src="https://img.shields.io/badge/DOI-10.1109%2FTSG.2026.3737375-00629B.svg?logo=ieee&logoColor=white" alt="IEEE paper DOI"></a>
+  <a href="https://arxiv.org/abs/2609.12968"><img src="https://img.shields.io/badge/arXiv-2609.12968-B31B1B.svg?logo=arxiv&logoColor=white" alt="arXiv"></a>
+  <a href="https://colab.research.google.com/github/SOLARIS-JHU/Battery-MI-DPC/blob/main/Battery-MI-DPC.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
+  <a href="Battery-MI-DPC.ipynb"><img src="https://img.shields.io/badge/Jupyter-Notebook-F37626.svg?logo=jupyter&logoColor=white" alt="Jupyter notebook"></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3-3776AB.svg?logo=python&logoColor=white" alt="Python 3"></a>
+  <a href="https://pytorch.org/"><img src="https://img.shields.io/badge/PyTorch-EE4C2C.svg?logo=pytorch&logoColor=white" alt="PyTorch"></a>
+</p>
 
-Research notebook for **End-to-End Battery Dispatch with Exact Rainflow Degradation via Mixed-Integer Differentiable Predictive Control**.
+<p align="center"><b>End-to-End Battery Dispatch with Exact Rainflow Degradation via Mixed-Integer Differentiable Predictive Control</b></p>
 
-**Eshagh Safarzadeh Ravajiri, Jan Drgona, Mahdi Mehrtash, and Benjamin F. Hobbs**  
-*IEEE Transactions on Smart Grid*, Early Access, 2026.  
-DOI: [10.1109/TSG.2026.3737375](https://doi.org/10.1109/TSG.2026.3737375)
+<p align="center">Eshagh Safarzadeh Ravajiri, Jan Drgona, Mahdi Mehrtash, and Benjamin F. Hobbs</p>
 
-[Published paper](https://ieeexplore.ieee.org/document/11707737/) · [arXiv](https://arxiv.org/abs/2609.12968) · [View notebook](Battery-MI-DPC.ipynb) · [Run in Colab](https://colab.research.google.com/github/SOLARIS-JHU/Battery-MI-DPC/blob/main/Battery-MI-DPC.ipynb)
+Companion research notebook for the paper published in [*IEEE Transactions on Smart Grid*](https://ieeexplore.ieee.org/document/11707737/), Early Access, 2026.
 
-## Overview
+---
+
+## The Battery Dispatch Problem
+
+Battery dispatch balances electricity import and export costs against degradation from charge–discharge cycles. The controller must choose charging, discharging, or idle modes and power schedules while accounting for battery dynamics and operating limits. Rainflow cycle counting connects the resulting state-of-charge trajectory to cycle degradation.
+
+<p align="center">
+  <a href="https://solaris-jhu.github.io/solaris-website/papers.html#energy-systems">
+    <img src="figs/battery-midpc-graphical-abstract.svg" width="760" alt="Forecasts enter a mixed-integer battery policy that produces operating modes, power, and an energy trajectory. Rainflow cycle pairing evaluates degradation; sparse extrema gradients and dense proxy gradients feed back into policy training.">
+  </a>
+</p>
+
+<p align="center"><em>Graphical abstract from the <a href="https://solaris-jhu.github.io/solaris-website/papers.html#energy-systems">SOLARIS papers page</a>. Open this paper's card there for the animated version. The diagram illustrates the method, not measured experimental results.</em></p>
+
+## The MI-DPC Framework
 
 Mixed-integer differentiable predictive control (MI-DPC) learns battery charge, discharge, and idle decisions together with continuous power schedules from solar-generation, demand, and electricity-price profiles. The notebook combines:
 
