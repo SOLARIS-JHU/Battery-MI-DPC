@@ -23,11 +23,9 @@ Battery dispatch balances electricity import and export costs against degradatio
 
 <p align="center">
   <a href="https://solaris-jhu.github.io/solaris-website/papers.html#energy-systems">
-    <img src="figs/battery-midpc-graphical-abstract.svg" width="760" alt="Forecasts enter a mixed-integer battery policy that produces operating modes, power, and an energy trajectory. Rainflow cycle pairing evaluates degradation; sparse extrema gradients and dense proxy gradients feed back into policy training.">
+    <img src="figs/battery-midpc-graphical-abstract-animated.svg" width="760" alt="Forecasts enter a mixed-integer battery policy that produces operating modes, power, and an energy trajectory. Rainflow cycle pairing evaluates degradation; sparse extrema gradients and dense proxy gradients feed back into policy training.">
   </a>
 </p>
-
-<p align="center"><em>Graphical abstract from the <a href="https://solaris-jhu.github.io/solaris-website/papers.html#energy-systems">SOLARIS papers page</a>. Open this paper's card there for the animated version. The diagram illustrates the method, not measured experimental results.</em></p>
 
 ## The MI-DPC Framework
 
