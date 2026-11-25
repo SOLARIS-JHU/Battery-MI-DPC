@@ -100,6 +100,12 @@ No incorrect numerical transcription or substantive algorithm misstatement was f
 
 - Hero now reads “Learning to accelerate battery dispatch while accounting for the cost of its cycles.” No new numerical or optimality claim.
 - The projection paragraph is condensed to its practical role: SOC/power limits and preserved operating modes; the 62-second fleet total includes the filter (P Section III-G and Table III). It does not claim a hard real-time deadline or universal feasibility of raw network outputs. Terminal-equality scope remains in the Scope section.
-- The new bold Results lead transcribes Table III: 3,650 daily battery schedules, 62 seconds with projection, 3,650/3,650 reported feasible, and 3.33% total-cost gap relative to PWL. “Optimization benchmark” is defined immediately afterward as PWL degradation MILP solved by Gurobi. It does not claim lossless performance.
+- The Results supporting sentence transcribes Table III: 3,650 daily battery schedules, 62 seconds with projection, 3,650/3,650 reported feasible, and 3.33% total-cost gap relative to PWL. “Optimization benchmark” is defined immediately afterward as PWL degradation MILP solved by Gurobi. It does not claim lossless performance.
 - “Real-world electricity tariffs” summarizes the three utility regions in Section IV-B; “single household” retains the single-customer training setting from IV-D.
 - The specified detailed notebook-reproduction paragraph was removed from the public page at the user's request. The full implementation audit remains in code-audit.md; no research code was modified.
+
+## Punchline and feasibility presentation update
+
+- Results now leads with “Optimize thousands of battery dispatch days in seconds, with feasible schedules and near-optimal performance.” The supporting sentence retains 3,650 schedules, 62 seconds, 100% reported feasibility and the 3.33% cost gap to PWL. “Near-optimal” describes empirical benchmark performance; it is not a certified global optimality bound. The nearby benchmark qualification remains.
+- Feasibility is displayed as a percentage: Table III counts are divided by 3,650 and multiplied by 100. Thus 3,650/3,650 = 100%, while 3,193/3,650 = 87.48% (rounded to two decimals). Selected Table I rows have 10/10 = 100%. Original paper figures retain their original axes and labels.
+- The sentence stating that the 62-second result includes the filter has been removed from the method paragraph. The projected row label and experimental context still identify that setting.
